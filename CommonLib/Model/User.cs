@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CommonLib.Model
 {
-    public class AppUser
+    public class ApplicationUser
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string UserName { get; set; } = string.Empty;

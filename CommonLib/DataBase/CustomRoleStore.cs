@@ -19,39 +19,39 @@ namespace CommonLib.DataBase
 
         public async Task<IdentityResult> CreateAsync(AppRole role, CancellationToken cancellationToken)
         {
-            const string sql = "INSERT INTO Roles (Id, Name) VALUES (@Id, @Name)";
-            //await _connection.ExecuteAsync(sql, new { role.Id, role.Name });
+            const string sql = "INSERT INTO [EPDC].[AspNetRoles] (Id, Name) VALUES (@Id, @Name)";
+            await _connection.ExecuteAsync(sql, new { role.Id, role.Name });
             return IdentityResult.Success;
         }
 
         public async Task<IdentityResult> UpdateAsync(AppRole role, CancellationToken cancellationToken)
         {
-            const string sql = "UPDATE Roles SET Name = @Name WHERE Id = @Id";
-            //var rows = await _connection.ExecuteAsync(sql, new { role.Id, role.Name });
-            //return rows > 0 ? IdentityResult.Success : IdentityResult.Failed(new IdentityError { Description = "Role not found." });
-            return IdentityResult.Success;
+            const string sql = "UPDATE [EPDC].[AspNetRoles] SET Name = @Name WHERE Id = @Id";
+            var rows = await _connection.ExecuteAsync(sql, new { role.Id, role.Name });
+            return rows > 0 ? IdentityResult.Success : IdentityResult.Failed(new IdentityError { Description = "Role not found." });
+            
         }
 
         public async Task<IdentityResult> DeleteAsync(AppRole role, CancellationToken cancellationToken)
         {
-            const string sql = "DELETE FROM Roles WHERE Id = @Id";
-            //var rows = await _connection.ExecuteAsync(sql, new { role.Id });
-            //return rows > 0 ? IdentityResult.Success : IdentityResult.Failed(new IdentityError { Description = "Role not found." });
+            const string sql = "DELETE FROM [EPDC].[AspNetRoles] WHERE Id = @Id";
+            var rows = await _connection.ExecuteAsync(sql, new { role.Id });
+            return rows > 0 ? IdentityResult.Success : IdentityResult.Failed(new IdentityError { Description = "Role not found." });
 
-            return IdentityResult.Success;
+           
         }
 
         public async Task<AppRole?> FindByIdAsync(string roleId, CancellationToken cancellationToken)
         {
-            const string sql = "SELECT * FROM Roles WHERE Id = @Id";
-            return new AppRole() { Id = "",Name = "User" }; // await _connection.QuerySingleOrDefaultAsync<AppRole>(sql, new { Id = roleId });
+            const string sql = "SELECT * FROM [EPDC].[AspNetRoles] WHERE Id = @Id";
+            return  await _connection.QuerySingleOrDefaultAsync<AppRole>(sql, new { Id = roleId });
         }
 
         public async Task<AppRole?> FindByNameAsync(string normalizedRoleName, CancellationToken cancellationToken)
         {
-            //const string sql = "SELECT * FROM Roles WHERE UPPER(Name) = @Name";
-            //return await _connection.QuerySingleOrDefaultAsync<AppRole>(sql, new { Name = normalizedRoleName });
-            return new AppRole() { Id = "", Name = "User" };
+            const string sql = "SELECT * FROM [EPDC].[AspNetRoles] WHERE UPPER(Name) = @Name";
+            return await _connection.QuerySingleOrDefaultAsync<AppRole>(sql, new { Name = normalizedRoleName });
+            
         }
 
         public Task<string> GetNormalizedRoleNameAsync(AppRole role, CancellationToken cancellationToken)

@@ -1,5 +1,6 @@
 using EPDC.Data;
 using Microsoft.AspNetCore.Identity;
+using CommonLib.Model;
 
 namespace EPDC.Components.Account
 {
